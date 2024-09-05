@@ -148,8 +148,31 @@ const getFull = async (req: Request, res: Response) => {
   }
 };
 
+// Get all blog posts function
+const getAllPosts = async (req: Request, res: Response) => {
+  const service = useService(proto.DataService.methods.getAllPosts);
+  const { page, pageSize, tag, authorId, sortBy, ascending } = service.decode(req.body);
+
+  try {
+    const posts = await db.post.getAllPosts({ page, pageSize, tag, authorId, sortBy, ascending });
+    
+    const body = service.encode(
+      new proto.DataGetAllPostsResponse({
+        result: proto.DataGetAllPostsResponse_Result.OK,
+        posts: posts,
+      })
+    );
+
+    res.success({ body });
+  } catch (err) {
+    console.error(err);
+    return ErrUnexpectedError(res);
+  }
+};
+
 export {
     upload,
     getPreview,
     getFull,
+    getAllPosts, // Export the get all blog posts function
 }

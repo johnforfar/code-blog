@@ -16,8 +16,14 @@ const getPreview = async (req: proto.DataGetPreviewRequest) => {
   return rpc(url(), '/get/post-preview', service.getPreviewPost, req);
 };
 
+// New get all blog posts
+const getAllPosts = async (req: proto.DataGetAllPostsRequest) => {
+  return rpc(url(), '/get/all-posts', service.getAllPosts, req);
+};
+
 export {
   upload,
   getPreview,
   getFull,
+  getAllPosts, // export get all posts data object
 };

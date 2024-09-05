@@ -8,7 +8,30 @@ import { useConfig } from '../../config';
 import { createLoginIntent } from '../../services/helpers/login';
 import { isLoggedIn } from '../../state/account';
 
+import { ref, onMounted } from 'vue';
+import { getAllPosts } from '../../services/endpoints/data';
+import type { DataPost } from '@code-pennypost/api';
+
 const config = useConfig();
+const posts = ref<DataPost[]>([]);
+
+const fetchPosts = async () => {
+  try {
+    const response = await getAllPosts({ 
+      page: 0, 
+      pageSize: 12,
+      tag: '',
+      authorId: '',
+      sortBy: '',
+      ascending: true
+    });
+    posts.value = response.posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+};
+
+onMounted(fetchPosts);
 </script>
 
 <template>
@@ -18,7 +41,6 @@ const config = useConfig();
     </template>
 
     <template #main>
-
         <div class="max-w-2xl">
             <div class="text-center max-w-xs mx-auto sm:max-w-full">
                 <h1 class="text-5xl font-bold tracking-tight text-[#07204E] mt-9">
@@ -45,13 +67,28 @@ const config = useConfig();
                         />
                     </ClientOnly>
                     <p class="mt-14 text-sm text-[#07204E]">
-                        Don’t have the Code App yet? <a href="https://getcode.com/download" class="underline">Download It Now</a>
+                        Don't have the Code App yet? <a href="https://getcode.com/download" class="underline">Download It Now</a>
                     </p>
                 </div>
-
             </div>
         </div>
 
+        <!-- Add the new blog posts grid -->
+        <div class="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-[#07204E] mb-8">Latest Posts</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div v-for="post in posts" :key="post.id" class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="p-6">
+                <h3 class="text-xl font-semibold text-[#07204E] mb-2">{{ post.title }}</h3>
+                <p class="text-gray-600 mb-4">{{ post.contentPreview }}</p>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-500">{{ new Date(post.createdAt).toLocaleDateString() }}</span>
+                  <router-link :to="`/post/${post.slug}`" class="text-[#34AA4E] hover:underline">Read more</router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </template>
   </GenericLayout>
 </template>

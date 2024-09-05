@@ -446,3 +446,220 @@ proto3.util.setEnumType(DataGetFullResponse_Result, "api.DataGetFullResponse.Res
   { no: 3, name: "NOT_PURCHASED" },
 ]);
 
+/**
+ * Blog post data objects
+ *
+ * @generated from message api.DataPost
+ */
+export class DataPost extends Message<DataPost> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * @generated from field: string title = 2;
+   */
+  title = "";
+
+  /**
+   * @generated from field: string slug = 3;
+   */
+  slug = "";
+
+  /**
+   * @generated from field: string content_preview = 4;
+   */
+  contentPreview = "";
+
+  /**
+   * @generated from field: string author_id = 5;
+   */
+  authorId = "";
+
+  /**
+   * @generated from field: string created_at = 6;
+   */
+  createdAt = "";
+
+  /**
+   * @generated from field: string updated_at = 7;
+   */
+  updatedAt = "";
+
+  /**
+   * @generated from field: string tags = 8;
+   */
+  tags = "";
+
+  constructor(data?: PartialMessage<DataPost>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "api.DataPost";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "slug", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "content_preview", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "author_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "created_at", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "updated_at", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 8, name: "tags", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DataPost {
+    return new DataPost().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DataPost {
+    return new DataPost().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DataPost {
+    return new DataPost().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DataPost | PlainMessage<DataPost> | undefined, b: DataPost | PlainMessage<DataPost> | undefined): boolean {
+    return proto3.util.equals(DataPost, a, b);
+  }
+}
+
+/**
+ * @generated from message api.DataGetAllPostsRequest
+ */
+export class DataGetAllPostsRequest extends Message<DataGetAllPostsRequest> {
+  /**
+   * @generated from field: int32 page = 1;
+   */
+  page = 0;
+
+  /**
+   * @generated from field: int32 page_size = 2;
+   */
+  pageSize = 0;
+
+  /**
+   * @generated from field: string tag = 3;
+   */
+  tag = "";
+
+  /**
+   * @generated from field: string author_id = 4;
+   */
+  authorId = "";
+
+  /**
+   * @generated from field: string sort_by = 5;
+   */
+  sortBy = "";
+
+  /**
+   * @generated from field: bool ascending = 6;
+   */
+  ascending = false;
+
+  constructor(data?: PartialMessage<DataGetAllPostsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "api.DataGetAllPostsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "page", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "page_size", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 3, name: "tag", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "author_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "sort_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "ascending", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DataGetAllPostsRequest {
+    return new DataGetAllPostsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DataGetAllPostsRequest {
+    return new DataGetAllPostsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DataGetAllPostsRequest {
+    return new DataGetAllPostsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DataGetAllPostsRequest | PlainMessage<DataGetAllPostsRequest> | undefined, b: DataGetAllPostsRequest | PlainMessage<DataGetAllPostsRequest> | undefined): boolean {
+    return proto3.util.equals(DataGetAllPostsRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message api.DataGetAllPostsResponse
+ */
+export class DataGetAllPostsResponse extends Message<DataGetAllPostsResponse> {
+  /**
+   * @generated from field: api.DataGetAllPostsResponse.Result result = 1;
+   */
+  result = DataGetAllPostsResponse_Result.OK;
+
+  /**
+   * @generated from field: repeated api.DataPost posts = 2;
+   */
+  posts: DataPost[] = [];
+
+  constructor(data?: PartialMessage<DataGetAllPostsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "api.DataGetAllPostsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "result", kind: "enum", T: proto3.getEnumType(DataGetAllPostsResponse_Result) },
+    { no: 2, name: "posts", kind: "message", T: DataPost, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DataGetAllPostsResponse {
+    return new DataGetAllPostsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DataGetAllPostsResponse {
+    return new DataGetAllPostsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DataGetAllPostsResponse {
+    return new DataGetAllPostsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DataGetAllPostsResponse | PlainMessage<DataGetAllPostsResponse> | undefined, b: DataGetAllPostsResponse | PlainMessage<DataGetAllPostsResponse> | undefined): boolean {
+    return proto3.util.equals(DataGetAllPostsResponse, a, b);
+  }
+}
+
+/**
+ * @generated from enum api.DataGetAllPostsResponse.Result
+ */
+export enum DataGetAllPostsResponse_Result {
+  /**
+   * @generated from enum value: OK = 0;
+   */
+  OK = 0,
+
+  /**
+   * @generated from enum value: INVALID_REQUEST = 1;
+   */
+  INVALID_REQUEST = 1,
+
+  /**
+   * @generated from enum value: UNKNOWN_ERROR = 2;
+   */
+  UNKNOWN_ERROR = 2,
+}
+// Retrieve enum metadata with: proto3.getEnumType(DataGetAllPostsResponse_Result)
+proto3.util.setEnumType(DataGetAllPostsResponse_Result, "api.DataGetAllPostsResponse.Result", [
+  { no: 0, name: "OK" },
+  { no: 1, name: "INVALID_REQUEST" },
+  { no: 2, name: "UNKNOWN_ERROR" },
+]);
+

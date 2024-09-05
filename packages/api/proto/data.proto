@@ -7,6 +7,8 @@ service DataService {
 
     rpc GetPreviewPost(DataGetPreviewRequest) returns (DataGetPreviewResponse) {}
     rpc GetFullPost(DataGetFullRequest) returns (DataGetFullResponse) {}
+
+    rpc GetAllPosts(DataGetAllPostsRequest) returns (DataGetAllPostsResponse) {} // added all blog posts to data service
 }
 
 message Data {
@@ -67,5 +69,37 @@ message DataGetFullResponse {
         INVALID_REQUEST = 1;
         UNKNOWN_ERROR = 2;
         NOT_PURCHASED = 3;
+    }
+}
+
+// Blog post data objects
+message DataPost {
+    string id = 1;
+    string title = 2;
+    string slug = 3;
+    string content_preview = 4;
+    string author_id = 5;
+    string created_at = 6;
+    string updated_at = 7;
+    string tags = 8;
+}
+
+message DataGetAllPostsRequest {
+    int32 page = 1;
+    int32 page_size = 2;
+    string tag = 3;
+    string author_id = 4;
+    string sort_by = 5;
+    bool ascending = 6;
+}
+
+message DataGetAllPostsResponse {
+    Result result = 1;
+    repeated DataPost posts = 2;
+
+    enum Result {
+        OK = 0;
+        INVALID_REQUEST = 1;
+        UNKNOWN_ERROR = 2;
     }
 }

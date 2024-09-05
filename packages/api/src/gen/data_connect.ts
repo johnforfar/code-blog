@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { DataGetFullRequest, DataGetFullResponse, DataGetPreviewRequest, DataGetPreviewResponse, DataUploadRequest, DataUploadResponse } from "./data_pb";
+import { DataGetAllPostsRequest, DataGetAllPostsResponse, DataGetFullRequest, DataGetFullResponse, DataGetPreviewRequest, DataGetPreviewResponse, DataUploadRequest, DataUploadResponse } from "./data_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -37,6 +37,15 @@ export const DataService = {
       name: "GetFullPost",
       I: DataGetFullRequest,
       O: DataGetFullResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc api.DataService.GetAllPosts
+     */
+    getAllPosts: {
+      name: "GetAllPosts",
+      I: DataGetAllPostsRequest,
+      O: DataGetAllPostsResponse,
       kind: MethodKind.Unary,
     },
   }

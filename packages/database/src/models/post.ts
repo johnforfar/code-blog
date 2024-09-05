@@ -114,6 +114,28 @@ async function getPostCount(): Promise<number> {
     return count;
 }
 
+// Get all blog posts function
+async function getAllPosts(filters: {
+  tag?: string;
+  authorId?: string;
+  sortBy?: string;
+  ascending?: boolean;
+  page: number;
+  pageSize: number;
+}): Promise<Post[]> {
+  const { tag, authorId, sortBy, ascending, page, pageSize } = filters;
+
+  return prisma.post.findMany({
+      where: {
+          ownerId: authorId,
+          // TODO - Add tag filtering
+      },
+      orderBy: sortBy ? { [sortBy]: ascending ? "asc" : "desc" } : undefined,
+      skip: page * pageSize,
+      take: pageSize,
+  });
+}
+
 export {
   toProto,
 
@@ -124,4 +146,7 @@ export {
 
   getPostCount,
   getPostCountByOwner,
+
+  getAllPosts, // Get all blog posts
+
 };
