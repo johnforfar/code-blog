@@ -136,7 +136,7 @@ const getFull = async (req: Request, res: Response) => {
         }
       }
     }
-    
+
     const hasPaid = true; // otherwise we would have returned earlier
     const { html } = await getContentForPost(db.post.toProto(post), hasPaid);
     const body = service.encode(
@@ -161,18 +161,36 @@ const getAllPosts = async (req: Request, res: Response) => {
 
   try {
     const posts = await db.post.getAllPosts({ page, pageSize, tag, authorId, sortBy, ascending });
-    
-    const body = service.encode(
-      new proto.DataGetAllPostsResponse({
-        result: proto.DataGetAllPostsResponse_Result.OK,
-        posts: posts,
-      })
-    );
+
+    // Log the fetched posts
+    console.log("Fetched posts from database:", posts);
+
+    // Convert Date objects to strings
+    const formattedPosts = posts.map(post => ({
+      ...post,
+      createdAt: post.createdAt.toISOString(),
+    }));
+
+    // Log the formatted posts
+    console.log("Formatted posts:", formattedPosts);
+
+    const response = new proto.DataGetAllPostsResponse({
+      result: proto.DataGetAllPostsResponse_Result.OK,
+      posts: formattedPosts,
+    });
+
+    // Log the response object
+    console.log("Response object:", response);
+
+    const body = service.encode(response);
+
+    // Log the encoded response
+    console.log("Encoded response body:", body);
 
     res.success({ body });
   } catch (err) {
-    console.error(err);
-    return ErrUnexpectedError(res);
+    console.error("Error in getAllPosts:", err);
+    return res.status(500).json({ error: "Unexpected error" });
   }
 };
 

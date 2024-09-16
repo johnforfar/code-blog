@@ -10,24 +10,29 @@ import { isLoggedIn } from '../../state/account';
 
 import { ref, onMounted } from 'vue';
 import { getAllPosts } from '../../services/endpoints/data';
-import type { DataPost } from '@code-pennypost/api';
+import type { DataPost, DataGetAllPostsRequest, DataGetAllPostsResponse } from '@code-pennypost/api';
 
 const config = useConfig();
 const posts = ref<DataPost[]>([]);
+const error = ref<string | null>(null);
 
 const fetchPosts = async () => {
   try {
-    const response = await getAllPosts({ 
+    console.log("Fetching posts...");
+    const request: DataGetAllPostsRequest = {
       page: 0, 
       pageSize: 12,
       tag: '',
       authorId: '',
       sortBy: '',
       ascending: true
-    });
+    };
+    const response: DataGetAllPostsResponse = await getAllPosts(request);
+    console.log("Fetched posts:", response);
     posts.value = response.posts;
-  } catch (error) {
-    console.error('Error fetching posts:', error);
+  } catch (err) {
+    console.error('Error fetching posts:', err);
+    error.value = err.message;
   }
 };
 
@@ -76,7 +81,8 @@ onMounted(fetchPosts);
         <!-- Add the new blog posts grid -->
         <div class="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 class="text-3xl font-bold text-[#07204E] mb-8">Latest Posts</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-if="error">{{ error }}</div>
+          <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div v-for="post in posts" :key="post.id" class="bg-white rounded-lg shadow-md overflow-hidden">
               <div class="p-6">
                 <h3 class="text-xl font-semibold text-[#07204E] mb-2">{{ post.title }}</h3>

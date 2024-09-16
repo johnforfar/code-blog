@@ -6,7 +6,7 @@
   "scripts": {
     "db:format": "prisma format",
     "db:init": "prisma generate",
-    "db:migrate": "dotenv -e ../backend/.env -- npx prisma migrate dev --name init",
+    "db:migrate": "dotenv -e ../backend/.env -- sh -c 'echo $DATABASE_URL && npx prisma migrate dev --name init'",
     "db:studio": "dotenv -e ../backend/.env -- npx prisma studio",
     "build": "tsc"
   },

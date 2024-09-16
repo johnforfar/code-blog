@@ -128,15 +128,37 @@ async function getAllPosts(filters: {
 }): Promise<Post[]> {
   const { tag, authorId, sortBy, ascending, page, pageSize } = filters;
 
-  return prisma.post.findMany({
-      where: {
-          ownerId: authorId,
-          // TODO - Add tag filtering
+  // Log the filters
+  console.log("getAllPosts filters:", filters);
+
+  const whereClause: any = {};
+
+  if (authorId) {
+    whereClause.ownerId = authorId;
+  }
+
+  if (tag) {
+    whereClause.tags = {
+      some: {
+        name: tag,
       },
-      orderBy: sortBy ? { [sortBy]: ascending ? "asc" : "desc" } : undefined,
-      skip: page * pageSize,
-      take: pageSize,
+    };
+  }
+
+  // Log the where clause
+  console.log("getAllPosts where clause:", whereClause);
+
+  const posts = await prisma.post.findMany({
+    where: whereClause,
+    orderBy: sortBy ? { [sortBy]: ascending ? "asc" : "desc" } : undefined,
+    skip: page * pageSize,
+    take: pageSize,
   });
+
+  // Log the fetched posts
+  console.log("Fetched posts from database:", posts);
+
+  return posts;
 }
 
 export {
