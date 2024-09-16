@@ -8,7 +8,8 @@
     "dev": "bun src/server.ts",
     "preview": "NODE_ENV=production bun src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "convert-verifier": "ts-node-esm src/utils/convert-verifier.ts"
+    "convert-verifier": "ts-node-esm src/utils/convert-verifier.ts",
+    "script:gen-secret": "bun scripts/verifier-keygen.ts"
   },
   "author": "",
   "license": "ISC",
