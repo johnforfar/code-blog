@@ -31,3 +31,8 @@ dist-ssr
 # Database
 pg_hba.conf
 *.sql
+/packages/database/prisma/migrations/**
+
+# Blog post content
+/packages/frontend/src/assets/blog-images/**
+/packages/frontend/src/assets/blog-posts/**
