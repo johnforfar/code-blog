@@ -18,6 +18,8 @@ const get = async (req: proto.PostGetRequest) => {
 
 const getPaginated = async (req: proto.PostGetPaginatedRequest) => {
   const request = new proto.PostGetPaginatedRequest(req);
+  const fullUrl = `${url()}/get-paginated`;
+  console.log('Calling API at:', fullUrl);
   const response = await rpc(url(), '/get-paginated', service.getPaginated, request);
   console.log('getPaginated response:', response);
   return response;

@@ -18,9 +18,9 @@ const offset = `:offset`;
 const post = `:slug/:title`;
 
 const routes = [
-    { path: `/`, name: 'home', component: PageHome },
+    { path: `/home`, name: 'home', component: PageHome },
 
-    { path: '/blog', component: PageBlog },
+    { path: '/', component: PageBlog },
 
     { path: `/p/${post}`, name: 'post', props: true, component: PageArticle },
     { path: `/p/${post}/${offset}`, name: 'post-with-offset', props: true, component: PageArticle },

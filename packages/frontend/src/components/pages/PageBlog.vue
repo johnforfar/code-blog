@@ -3,6 +3,7 @@
 import { ref, onMounted } from 'vue';
 import { getPaginated } from '../../services/endpoints/post';
 import type { Post, PostGetPaginatedRequest, PostGetPaginatedResponse } from '@code-blog/api';
+import { PostGetPaginatedResponse_Result } from '@code-blog/api';
 
 const posts = ref<Post[]>([]);
 const error = ref<string | null>(null);
@@ -18,8 +19,16 @@ const fetchPosts = async () => {
     console.log("Request object:", request);
     
     const response = await getPaginated(request);
-    console.log("Fetched posts:", response);
-    posts.value = response.posts || [];
+    console.log("Raw response:", response);
+    
+    if (response.result === PostGetPaginatedResponse_Result.OK) {
+      console.log("Fetched posts:", response.posts);
+      posts.value = response.posts || [];
+      console.log("Updated posts:", posts.value);
+    } else {
+      console.error("Error in response:", response.result);
+      error.value = "Failed to fetch posts";
+    }
   } catch (err) {
     console.error('Error fetching posts:', err);
     error.value = err.message || 'An error occurred while fetching posts';

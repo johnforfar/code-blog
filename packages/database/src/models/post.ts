@@ -1,3 +1,5 @@
+// ./packages/database/src/models/post.ts
+
 import { PrismaClient, Post } from "@prisma/client";
 import { hashBuffer } from "../utils/hash"
 import * as proto from "@code-blog/api";
@@ -90,17 +92,26 @@ interface GetPaginatedPostsOpts {
 }
 
 async function getPaginatedPosts(ownerId: string | undefined, opts: GetPaginatedPostsOpts): Promise<Post[]> {
+  console.log(`Getting paginated posts. ownerId: ${ownerId}, page: ${opts.page}, pageSize: ${opts.pageSize}`);
+  
   const whereClause: any = {};
   if (ownerId) {
     whereClause.ownerId = ownerId;
   }
 
+  console.log('Where clause:', whereClause);
+
   const records = await prisma.post.findMany({
     where: whereClause,
-    skip: opts.page * opts.pageSize,
+    skip: (opts.page - 1) * opts.pageSize,
     take: opts.pageSize,
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
 
+  console.log(`Found ${records.length} posts`);
+  console.log('Posts:', records);
   return records;
 }
 

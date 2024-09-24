@@ -1,3 +1,5 @@
+// ./packages/backend/src/routes/post/post.router.ts
+
 import { Router } from "express";
 import { requireLogin } from "../../middleware/auth";
 import * as controller from "./post.controller";

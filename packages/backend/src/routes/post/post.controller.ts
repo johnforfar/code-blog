@@ -57,8 +57,6 @@ const create = async (req: Request, res: Response) => {
         post.imageId = imageId;
       }
     } catch (err) {
-      // Beyond logging this, we can ignore the error. A post can be created
-      // without the image.
       console.warn('Could not get or create post image', err);
     }
   }
@@ -131,12 +129,6 @@ const getPaginated = async (req: Request, res: Response) => {
 
   console.log(`ownerId: ${ownerId}, page: ${page}, pageSize: ${pageSize}`);
 
-  // Remove this validation as it's not necessary
-  // if (page === undefined || pageSize === undefined) {
-  //   return ErrInvalidRequest(res);
-  // }
-
-  // Adjust this validation to allow pageSize up to 12
   if (pageSize > 12) {
     return ErrInvalidRequest(res);
   }
@@ -147,7 +139,10 @@ const getPaginated = async (req: Request, res: Response) => {
       pageSize,
     });
 
+    console.log("Fetched posts from database:", posts);
+
     if (!posts) {
+      console.error("getPaginatedPosts returned null");
       return ErrUnexpectedError(res);
     }
 
@@ -158,9 +153,11 @@ const getPaginated = async (req: Request, res: Response) => {
       })
     );
 
+    console.log("Paginated posts response:", body);
+
     res.success({ body });
   } catch (err) {
-    console.error(err);
+    console.error("Error in getPaginated:", err);
     return ErrUnexpectedError(res);
   }
 }
