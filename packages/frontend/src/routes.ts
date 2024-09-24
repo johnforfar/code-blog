@@ -4,12 +4,13 @@ import {
     createWebHistory,
 } from "vue-router";
 
-import PageHome from './components/pages/PageHome.vue'
-import PageEditor from './components/pages/PageEditor.vue'
-import PageArticle from './components/pages/PageArticle.vue'
+import PageHome from './components/pages/PageHome.vue';
+import PageBlog from './components/pages/PageBlog.vue';
+import PageEditor from './components/pages/PageEditor.vue';
+import PageArticle from './components/pages/PageArticle.vue';
 import PageShare from './components/pages/PageShare.vue';
-import PageCatchLogin from './components/pages/PageCatchLogin.vue'
-import PageCatchPayment from './components/pages/PageCatchPayment.vue'
+import PageCatchLogin from './components/pages/PageCatchLogin.vue';
+import PageCatchPayment from './components/pages/PageCatchPayment.vue';
 import PageSettings from './components/pages/PageSettings.vue';
 
 const intent = `:intent`;
@@ -18,6 +19,8 @@ const post = `:slug/:title`;
 
 const routes = [
     { path: `/`, name: 'home', component: PageHome },
+
+    { path: '/blog', component: PageBlog },
 
     { path: `/p/${post}`, name: 'post', props: true, component: PageArticle },
     { path: `/p/${post}/${offset}`, name: 'post-with-offset', props: true, component: PageArticle },

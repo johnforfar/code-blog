@@ -3,9 +3,16 @@ AWS_PROFILE=default
 AWS_SHARED_CREDENTIALS_FILE=../../.aws/credentials
 AWS_CONFIG_FILE=../../.aws/config
 AWS_SDK_LOAD_CONFIG=1
-REPOSITORY_NAME=micropaywall-service
+REPOSITORY_NAME=solana-blog
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 ENV := dev
+
+# Database-related variables
+DB_PORT ?= 5433
+DB_PASSWORD ?= WeAreAllKin!
+DB_NAME ?= postgres
+DB_USER ?= solanablog
+DOCKER_NETWORK = solanablog-network
 
 version=
 
@@ -17,9 +24,69 @@ ecr-uri:
 build: gen-frontend
 	docker build --progress=plain --platform linux/amd64 -t $(REPOSITORY_NAME):latest -f ./docker/Dockerfile .
 
+.PHONY: ensure-network
+ensure-network:
+	@docker network inspect $(DOCKER_NETWORK) >/dev/null 2>&1 || \
+		(echo "Creating Docker network $(DOCKER_NETWORK)" && \
+		docker network create $(DOCKER_NETWORK))
+
+.PHONY: free-port
+free-port:
+	@echo "Checking if port $(DB_PORT) is in use..."
+	@lsof -i :$(DB_PORT) >/dev/null 2>&1 && ( \
+		echo "Port $(DB_PORT) is in use. Attempting to free it..."; \
+		lsof -i :$(DB_PORT) -t | xargs kill -9; \
+		echo "Port $(DB_PORT) has been freed."; \
+	) || echo "Port $(DB_PORT) is available."
+
+.PHONY: stop-db
+stop-db:
+	@echo "Stopping and removing all PostgreSQL containers..."
+	-docker stop $$(docker ps -a -q --filter ancestor=postgres) 2>/dev/null
+	-docker rm $$(docker ps -a -q --filter ancestor=postgres) 2>/dev/null
+
+.PHONY: start-db
+start-db: ensure-network stop-db free-port
+	@echo "Starting PostgreSQL container"
+	@docker run --name postgres-db --network $(DOCKER_NETWORK) \
+		-e POSTGRES_PASSWORD=$(DB_PASSWORD) \
+		-e POSTGRES_USER=$(DB_USER) \
+		-e POSTGRES_DB=$(DB_NAME) \
+		-p $(DB_PORT):5432 \
+		-d postgres
+
+	@echo "Waiting for PostgreSQL to start..."
+	@sleep 5
+	@if ! docker ps | grep -q postgres-db; then \
+		echo "Error: PostgreSQL container failed to start."; \
+		echo "Please check Docker logs with: docker logs postgres-db"; \
+		exit 1; \
+	fi
+	@echo "PostgreSQL container started successfully on port $(DB_PORT)."
+
+.PHONY: init-db
+init-db:
+	@echo "Initializing database..."
+	@docker run --rm --network $(DOCKER_NETWORK) \
+		-e DATABASE_URL="postgresql://$(DB_USER):$(DB_PASSWORD)@postgres-db:5432/$(DB_NAME)" \
+		$(REPOSITORY_NAME):latest \
+		/bin/sh -c "cd /app/packages/database && \
+		bun run prisma migrate deploy && \
+		bun run db:seed"
+
 .PHONY: run-local
-run-local: build
-	docker run -p 8080:3000 --rm --name $(REPOSITORY_NAME)-local $(REPOSITORY_NAME):latest
+run-local:
+	@echo "Stopping and removing existing application container if it exists"
+	-docker stop $(REPOSITORY_NAME)-local
+	-docker rm $(REPOSITORY_NAME)-local
+	@echo "Running the application container"
+	docker run -p 8080:3000 --rm --name $(REPOSITORY_NAME)-local --network $(DOCKER_NETWORK) \
+		-e DATABASE_URL="postgresql://$(DB_USER):$(DB_PASSWORD)@postgres-db:5432/$(DB_NAME)" \
+		$(REPOSITORY_NAME):latest
+
+# Add a new target for full setup and run
+.PHONY: full-run-local
+full-run-local: clear-docker-cache build start-db init-db run-local
 
 .PHONY: login-ecr
 login-ecr: ecr-uri
@@ -83,12 +150,11 @@ install:
 	cd packages/api && npm install
 	cd packages/api && npm run gen
 	cd packages/database && npm install
-	cd packages/database && npm run db:init
 	cd packages/frontend && npm install
 	cd packages/frontend && npm run build
 	cd packages/backend && npm install
 
-	@echo "Initializing database"
+	@echo "Setting up database"
 
 	@if [ ! -f packages/backend/.env ]; then \
 		echo "\nError: packages/backend/.env file not found. Please create one using the template provided in packages/backend/.env.example"; \
@@ -97,9 +163,17 @@ install:
 		exit 1; \
 	fi
 
-	cd packages/database && npm run db:migrate
+	$(MAKE) start-db
+	$(MAKE) init-db
 
 .PHONY: verifier-key
 verifier-key:
 	@echo "Generating verifier key"
 	cd packages/backend && npm run script:gen-secret
+
+.PHONY: clear-docker-cache
+clear-docker-cache:
+	@echo "Clearing Docker cache"
+	docker system prune -af
+	docker volume prune -f
+	docker network prune -f

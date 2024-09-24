@@ -121,9 +121,9 @@ const getPaginated = async (req: Request, res: Response) => {
   const service = useService(proto.PostService.methods.getPaginated);
   const { ownerId, page, pageSize } = service.decode(req.body);
 
-  if (!ownerId) {
-    return ErrInvalidRequest(res);
-  }
+  //if (!ownerId) {
+  //  return ErrInvalidRequest(res);
+  //}
 
   if (!page || !pageSize) {
     return ErrInvalidRequest(res);

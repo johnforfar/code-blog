@@ -89,17 +89,19 @@ interface GetPaginatedPostsOpts {
     pageSize: number;
 }
 
-async function getPaginatedPosts(ownerId: string, opts: GetPaginatedPostsOpts): Promise<Post[]> {
-    const records = await prisma.post.findMany({
-        where: {
-            ownerId: ownerId,
-        },
+async function getPaginatedPosts(ownerId: string | undefined, opts: GetPaginatedPostsOpts): Promise<Post[]> {
+  const whereClause: any = {};
+  if (ownerId) {
+    whereClause.ownerId = ownerId;
+  }
 
-        skip: opts.page * opts.pageSize,
-        take: opts.pageSize,
-    });
+  const records = await prisma.post.findMany({
+    where: whereClause,
+    skip: opts.page * opts.pageSize,
+    take: opts.pageSize,
+  });
 
-    return records;
+  return records;
 }
 
 async function getPostCountByOwner(ownerId: string): Promise<number> {
