@@ -1,5 +1,5 @@
-import { Post } from "@code-pennypost/api";
-import * as db from "@code-pennypost/database";
+import { Post } from "@code-blog/api";
+import * as db from "@code-blog/database";
 import { getFreeContent, removePaywallTag, splitTitleFromContent } from "../utils/html";
 
 const ErrPostNotFound = () => new Error('Post not found');

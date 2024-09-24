@@ -1,6 +1,6 @@
 import { ref }  from 'vue';
 import { PublicKey } from '@code-wallet/library';
-import * as proto from '@code-pennypost/api';
+import * as proto from '@code-blog/api';
 import * as api from '../services';
 import { getUserInfo } from '../services/helpers/user';
 

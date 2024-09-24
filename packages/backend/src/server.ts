@@ -1,5 +1,5 @@
 import express from 'express';
-import { useRenderer } from '@code-pennypost/frontend/renderer';
+import { useRenderer } from '@code-blog/frontend/renderer';
 import { useConfig } from './config';
 import { renderPost, renderPostImage } from './routes/post/post.view';
 import { renderFile } from './routes/data/data.view';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as proto from '@code-pennypost/api';
+import * as proto from '@code-blog/api';
 import { UserCircleIcon } from '@heroicons/vue/24/solid';
 import { CSSProperties, onMounted, reactive, ref } from 'vue';
 

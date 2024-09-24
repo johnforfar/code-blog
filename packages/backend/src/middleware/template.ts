@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Renderer } from '@code-pennypost/frontend/renderer';
+import { Renderer } from '@code-blog/frontend/renderer';
 import { useConfig } from '../config';
 
 const config = useConfig();

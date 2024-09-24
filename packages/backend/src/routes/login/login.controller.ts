@@ -1,5 +1,5 @@
-import * as proto from "@code-pennypost/api";
-import * as db from "@code-pennypost/database";
+import * as proto from "@code-blog/api";
+import * as db from "@code-blog/database";
 import * as code from '@code-wallet/client';
 
 import { Request, Response } from "express";

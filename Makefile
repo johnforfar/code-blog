@@ -3,7 +3,7 @@ AWS_PROFILE=default
 AWS_SHARED_CREDENTIALS_FILE=../../.aws/credentials
 AWS_CONFIG_FILE=../../.aws/config
 AWS_SDK_LOAD_CONFIG=1
-REPOSITORY_NAME=solana-blog
+REPOSITORY_NAME=code-blog
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 ENV := dev
 
@@ -11,8 +11,8 @@ ENV := dev
 DB_PORT ?= 5433
 DB_PASSWORD ?= WeAreAllKin!
 DB_NAME ?= postgres
-DB_USER ?= solanablog
-DOCKER_NETWORK = solanablog-network
+DB_USER ?= codeblog
+DOCKER_NETWORK = code-network
 
 version=
 

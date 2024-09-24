@@ -1,5 +1,5 @@
 import Sqids from "sqids";
-import * as db from "@code-pennypost/database";
+import * as db from "@code-blog/database";
 
 const sqids = new Sqids({
     alphabet: "0123456789",

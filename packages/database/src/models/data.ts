@@ -1,6 +1,6 @@
 import { PrismaClient, Data } from "@prisma/client";
 import { hashBuffer } from "../utils/hash"
-import * as proto from "@code-pennypost/api";
+import * as proto from "@code-blog/api";
 
 const prisma = new PrismaClient();
 

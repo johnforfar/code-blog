@@ -30,3 +30,4 @@ dist-ssr
 
 # Database
 pg_hba.conf
+*.sql

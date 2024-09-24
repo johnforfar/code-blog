@@ -1,4 +1,4 @@
-import * as proto from '@code-pennypost/api'
+import * as proto from '@code-blog/api'
 import { NextFunction, Request, Response } from "express";
 import { log } from '../utils/logger';
 

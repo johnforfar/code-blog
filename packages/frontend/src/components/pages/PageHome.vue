@@ -10,7 +10,7 @@ import { isLoggedIn } from '../../state/account';
 
 import { ref, onMounted } from 'vue';
 import { getAllPosts } from '../../services/endpoints/data';
-import type { DataPost, DataGetAllPostsRequest, DataGetAllPostsResponse } from '@code-pennypost/api';
+import type { DataPost, DataGetAllPostsRequest, DataGetAllPostsResponse } from '@code-blog/api';
 
 const config = useConfig();
 const posts = ref<DataPost[]>([]);

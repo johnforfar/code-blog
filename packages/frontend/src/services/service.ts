@@ -1,4 +1,4 @@
-import * as proto from "@code-pennypost/api";
+import * as proto from "@code-blog/api";
 import { getAuthToken, isLoggedIn, logout } from "../state/account";
 
 const ErrNetworkError = () => new Error("Network error");

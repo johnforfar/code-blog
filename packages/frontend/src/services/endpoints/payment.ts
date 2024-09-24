@@ -1,4 +1,4 @@
-import * as proto from "@code-pennypost/api";
+import * as proto from "@code-blog/api";
 import { rpc } from "../service";
 
 const url = () => `/payment`;

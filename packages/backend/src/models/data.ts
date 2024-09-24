@@ -1,5 +1,5 @@
-import * as db from "@code-pennypost/database";
-import { DataFile } from "@code-pennypost/api";
+import * as db from "@code-blog/database";
+import { DataFile } from "@code-blog/api";
 import { canReduceImageSize, convertImageToWebP } from "../utils/image";
 
 const ErrUnexpectedError = () => new Error('Unexpected error');

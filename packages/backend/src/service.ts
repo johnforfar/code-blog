@@ -1,4 +1,4 @@
-import * as proto from '@code-pennypost/api'
+import * as proto from '@code-blog/api'
 import { log } from './utils/logger';
 
 const getDecoder = <T extends proto.MethodInfo>(method: T) => {

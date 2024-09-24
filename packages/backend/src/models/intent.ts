@@ -1,4 +1,4 @@
-import * as db from "@code-pennypost/database";
+import * as db from "@code-blog/database";
 import * as code from '@code-wallet/client';
 import { useConfig } from "../config";
 

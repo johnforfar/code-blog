@@ -13,6 +13,6 @@
         "typescript": "^5.1.6"
     },
     "dependencies": {
-        "@code-pennypost/api": "^1.0.0"
+        "@code-blog/api": "^1.0.0"
     }
 }

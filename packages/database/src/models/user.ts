@@ -1,5 +1,5 @@
 import { PrismaClient, User } from "@prisma/client";
-import * as proto from "@code-pennypost/api";
+import * as proto from "@code-blog/api";
 
 const prisma = new PrismaClient();
 
