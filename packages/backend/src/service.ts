@@ -1,3 +1,5 @@
+// ./packages/backend/src/service.ts
+
 import * as proto from '@code-blog/api'
 import { log } from './utils/logger';
 

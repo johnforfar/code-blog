@@ -1,3 +1,5 @@
+// ./packages/backend/src/routes/post/post.controller.ts
+
 import * as proto from "@code-blog/api";
 import * as db from "@code-blog/database";
 
@@ -119,23 +121,28 @@ const get = async (req: Request, res: Response) => {
 
 const getPaginated = async (req: Request, res: Response) => {
   const service = useService(proto.PostService.methods.getPaginated);
-  const { ownerId, page, pageSize } = service.decode(req.body);
+  
+  console.log("Raw request body:", req.body);
+  
+  const decoded = service.decode(req.body);
+  console.log("Decoded request:", decoded);
+  
+  const { ownerId, page, pageSize } = decoded;
 
-  //if (!ownerId) {
-  //  return ErrInvalidRequest(res);
-  //}
+  console.log(`ownerId: ${ownerId}, page: ${page}, pageSize: ${pageSize}`);
 
-  if (!page || !pageSize) {
+  // Remove this validation as it's not necessary
+  // if (page === undefined || pageSize === undefined) {
+  //   return ErrInvalidRequest(res);
+  // }
+
+  // Adjust this validation to allow pageSize up to 12
+  if (pageSize > 12) {
     return ErrInvalidRequest(res);
   }
-
-  if (pageSize > 10) {
-    return ErrInvalidRequest(res);
-  }
-
 
   try {
-    const posts = await db.resultOrNull(db.post.getPaginatedPosts)(ownerId, {
+    const posts = await db.resultOrNull(db.post.getPaginatedPosts)(ownerId || undefined, {
       page,
       pageSize,
     });

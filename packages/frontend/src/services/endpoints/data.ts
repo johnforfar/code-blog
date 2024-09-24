@@ -1,4 +1,6 @@
-import * as proto from "@code-blog/api";
+// ./packages/frontend/src/services/endpoints/data.ts
+
+import * as proto from "../../../../api";
 import { rpc } from "../service";
 
 const url = () => `/data`;

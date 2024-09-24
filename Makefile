@@ -177,3 +177,14 @@ clear-docker-cache:
 	docker system prune -af
 	docker volume prune -f
 	docker network prune -f
+
+.PHONY: redeploy-local
+redeploy-local:
+	@echo "Clearing Docker cache"
+	$(MAKE) clear-docker-cache
+	@sleep 5
+	@echo "Building Docker image"
+	$(MAKE) build
+	@sleep 5
+	@echo "Running the application container locally"
+	$(MAKE) run-local
