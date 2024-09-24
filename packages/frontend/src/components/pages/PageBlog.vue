@@ -52,7 +52,7 @@ onMounted(fetchPosts);
             <p class="text-[#858585] mb-4">{{ post.short }}</p>
             <div class="flex justify-between items-center">
               <span class="text-sm text-[#858585]">{{ new Date(post.createdAt).toLocaleDateString() }}</span>
-              <router-link :to="`/post/${post.slug}`" class="text-[#007AFF] hover:underline">Read more</router-link>
+              <router-link :to="`/p/${post.slug}`" class="text-[#007AFF] hover:underline">Read more</router-link>
             </div>
           </div>
         </div>
