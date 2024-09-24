@@ -7,6 +7,5 @@ const router = Router();
 router.post("/upload", requireLogin, controller.upload);
 router.post("/get/post", requireLogin, controller.getFull);
 router.post("/get/post-preview", controller.getPreview);
-router.post("/get/all-posts", controller.getAllPosts); // Get all blog posts
 
 export default router;

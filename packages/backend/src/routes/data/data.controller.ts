@@ -154,49 +154,8 @@ const getFull = async (req: Request, res: Response) => {
   }
 };
 
-// Get all blog posts function
-const getAllPosts = async (req: Request, res: Response) => {
-  const service = useService(proto.DataService.methods.getAllPosts);
-  const { page, pageSize, tag, authorId, sortBy, ascending } = service.decode(req.body);
-
-  try {
-    const posts = await db.post.getAllPosts({ page, pageSize, tag, authorId, sortBy, ascending });
-
-    // Log the fetched posts
-    console.log("Fetched posts from database:", posts);
-
-    // Convert Date objects to strings
-    const formattedPosts = posts.map(post => ({
-      ...post,
-      createdAt: post.createdAt.toISOString(),
-    }));
-
-    // Log the formatted posts
-    console.log("Formatted posts:", formattedPosts);
-
-    const response = new proto.DataGetAllPostsResponse({
-      result: proto.DataGetAllPostsResponse_Result.OK,
-      posts: formattedPosts,
-    });
-
-    // Log the response object
-    console.log("Response object:", response);
-
-    const body = service.encode(response);
-
-    // Log the encoded response
-    console.log("Encoded response body:", body);
-
-    res.success({ body });
-  } catch (err) {
-    console.error("Error in getAllPosts:", err);
-    return res.status(500).json({ error: "Unexpected error" });
-  }
-};
-
 export {
     upload,
     getPreview,
     getFull,
-    getAllPosts, // Export the get all blog posts function
 }

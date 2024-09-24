@@ -130,50 +130,6 @@ async function getPostCount(): Promise<number> {
     return count;
 }
 
-// Get all blog posts function
-async function getAllPosts(filters: {
-  tag?: string;
-  authorId?: string;
-  sortBy?: string;
-  ascending?: boolean;
-  page: number;
-  pageSize: number;
-}): Promise<Post[]> {
-  const { tag, authorId, sortBy, ascending, page, pageSize } = filters;
-
-  // Log the filters
-  console.log("getAllPosts filters:", filters);
-
-  const whereClause: any = {};
-
-  if (authorId) {
-    whereClause.ownerId = authorId;
-  }
-
-  if (tag) {
-    whereClause.tags = {
-      some: {
-        name: tag,
-      },
-    };
-  }
-
-  // Log the where clause
-  console.log("getAllPosts where clause:", whereClause);
-
-  const posts = await prisma.post.findMany({
-    where: whereClause,
-    orderBy: sortBy ? { [sortBy]: ascending ? "asc" : "desc" } : undefined,
-    skip: page * pageSize,
-    take: pageSize,
-  });
-
-  // Log the fetched posts
-  console.log("Fetched posts from database:", posts);
-
-  return posts;
-}
-
 export {
   toProto,
 
@@ -184,7 +140,5 @@ export {
 
   getPostCount,
   getPostCountByOwner,
-
-  getAllPosts, // Get all blog posts
 
 };

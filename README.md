@@ -1,9 +1,11 @@
-# Pennypost
+# Code Blog
 ![license][license-image]
 ![version][version-image]
 
 [version-image]: https://img.shields.io/badge/version-0.1.0-blue.svg?style=flat
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
+
+This repo is a fork of Pennypost, called Code Blog, which aims to allow people to self-host their own blog website. Only paid support will be offered if you pay with Code $KIN.
 
 This repository contains the starter code for running your own version of Pennypost — a simple writing tool that empowers any writer to add a $0.25 paywall to their content using the Code SDK and app.
 
