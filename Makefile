@@ -188,3 +188,8 @@ redeploy-local:
 	@sleep 5
 	@echo "Running the application container locally"
 	$(MAKE) run-local
+
+.PHONY: db-test
+db-test:
+	clear
+	npx ts-node -r dotenv/config packages/database/prisma/test.ts
